@@ -126,6 +126,11 @@ typedef struct
 
 typedef struct
 {
+	int x, y;
+} Block;
+
+typedef struct
+{
 	long left, right, top, bottom;
 } Bounds;
 
@@ -180,6 +185,16 @@ typedef struct
 	bool mygrand;//是 = 黄队//否 = 兰队
 	bool locked;//是否已经判断场地	
 	int WIB;//分区
+
+	Vector3D block[100][100];//当前块的中心坐标
+	int block_my[100][100];//我方队员分区
+	int block_op[100][100];//对方队员分区
+	int block_ball[100][100];//球分区
+	Block block_min;//最小块x值
+	Block block_max;//最大块x值
+	Block my_block_pos[5];//我方队员的块坐标
+	Block op_block_pos[5];//对方队员的块坐标
+	Block ball_block_pos;//球的块坐标
 
 	int bgoalball;//球门球
 	int nfreeball;//自由球

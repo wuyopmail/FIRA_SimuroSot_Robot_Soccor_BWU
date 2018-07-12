@@ -281,7 +281,7 @@ void See ( Environment *env ){
 /////////	 预测球的坐标
 
 	p->WIB = CheckBall(env);
-
+	CheckBlockInfo(env);
 	///计时
 	///很有用处的
 	p->time[1]++;

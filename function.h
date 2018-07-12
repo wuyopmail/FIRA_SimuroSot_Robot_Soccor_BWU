@@ -31,6 +31,7 @@ double AngleOne(double omiga,double vl,double vr);                //计算在当前角
 double VelocityOne(double speed,double vl,double vr);             //计算在当前速度speed的基础上以左右轮速vl,vr控制，下一个周期达到的速度 返回下一个周期达到的速度
 void Velocity(Environment *env, int robot,double vl,double vr);   //修改机器人左右轮速
 int CheckBall(Environment *env);//返回分区号
+void CheckBlockInfo(Environment *env);//读取并写入块状态
 void PredictBall(Environment *env,int steps=1);                    //预测经过 steps 个周期之后球的位置
 Vector3D Meetball_p( Environment *env, int robot);                 //求出robot追到球的位置
 void Order(Environment *env);                                      //角色分配

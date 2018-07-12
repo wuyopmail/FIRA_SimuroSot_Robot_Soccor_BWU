@@ -1291,6 +1291,94 @@ int CheckBall(Environment *env)
 	return WIB;
 }
 
+void CheckBlockInfo(Environment * env)
+{
+	Mydata * p;
+	p=(Mydata *)env->userData;
+	int i,j,k;
+	double x=0;//相对块x值
+	double x_min=0;//当前块x最小值
+	double x_max=0;//当前块x最大值 
+	double x1=6.8118;//区域x最小值
+	double x2=78.6;//区域x最大值
+
+	double y=0;//相对块y值
+	double y_min=0;//当前块y最小值
+	double y_max=0;//当前块y最大值
+	double y1=6.3730;//区域y最小值
+    double y2=77.2392;//区域y最大值
+	int block_size=2;//块大小
+	int block_x_num=0;//x块总数量
+	int block_y_num=0;//y块总数量
+	int block_x_num_judge=0;//判断x用
+	int block_y_num_judge=0;//判断y用
+
+	block_x_num = (x2 - x1) / block_size;
+	block_x_num++;//算入边界块
+	block_y_num = (y2 - y1) / block_size;
+	block_y_num++;//算入边界块
+
+	for (i = 0;i < block_x_num;i++){
+		for (j = 0;j < block_y_num;j++){
+			x = i * block_size;
+			x_min = x + x1;
+			x_max = x_min + block_size;
+
+			y = j * block_size;
+			y_min = y + y1;
+			y_max = y_min + block_size;
+
+			//将当前块的中心x和y坐标，存入block当中
+			p->block[i][j].x = x_min + (block_size / 2);
+			if(block_y_num != 0){
+				block_y_num_judge = block_y_num;//fix bug
+				block_y_num_judge--;//fix bug
+				if(j == block_y_num_judge){//fix bug
+				//if(j == (block_y_num--)){//bug
+					p->block[i][j].y = y2;
+				} else {
+					p->block[i][j].y = y_min + (block_size / 2);
+				}
+			} else {
+				p->block[i][j].y = y2;
+			}
+
+			//循环读取队员的块编号
+			for (k = 0;k < 5;k++){
+				if ((p->robot[k].pos.x >= x_min) && (p->robot[k].pos.y >= y_min) && (p->robot[k].pos.x < x_max) && (p->robot[k].pos.y < y_max)){
+					p->block_my[i][j] = 1;
+					p->my_block_pos[k].x = i;
+					p->my_block_pos[k].y = j;
+				} else {
+					p->block_my[i][j] = 0;
+				}
+				if ((p->opp[k].pos.x >= x_min) && (p->opp[k].pos.y >= y_min) && (p->opp[k].pos.x < x_max) && (p->opp[k].pos.y < y_max)){
+					p->block_op[i][j] = 1;
+					p->op_block_pos[k].x = i;
+					p->op_block_pos[k].y = j;
+				} else {
+					p->block_op[i][j] = 0;
+				}
+			}
+
+			//读取球的块坐标
+			if ((p->ball_cur.x >= x_min) && (p->ball_cur.y >= y_min) && (p->ball_cur.x < x_max) && (p->ball_cur.y < y_max)){
+				p->block_ball[i][j] = 1;
+				p->ball_block_pos.x = i;
+				p->ball_block_pos.y = j;
+			} else {
+				p->block_ball[i][j] = 0;
+			}
+		}
+	}
+
+	//存入块信息
+	p->block_min.x = 0;
+	p->block_min.y = 0;
+	p->block_max.x = block_x_num;
+	p->block_max.y = block_y_num;
+}
+
 void PredictBall(Environment *env,int steps)
 {
 	Mydata * p;
