@@ -1299,8 +1299,10 @@ void CheckBlockInfo(Environment * env)
 	double x=0;//相对块x值
 	double x_min=0;//当前块x最小值
 	double x_max=0;//当前块x最大值 
-	double x1=6.8118;//区域x最小值
-	double x2=78.6;//区域x最大值
+	//double x1=6.8118;//区域x最小值
+	double x1=21.5;//区域x最小值 //bug fixed: 存在区域判断出错的问题
+	//double x2=78.6;//区域x最大值
+	double x2=93.4259;//区域x最大值 //bug fixed: 存在区域判断出错的问题
 
 	double y=0;//相对块y值
 	double y_min=0;//当前块y最小值
@@ -1317,6 +1319,14 @@ void CheckBlockInfo(Environment * env)
 	block_x_num++;//算入边界块
 	block_y_num = (y2 - y1) / block_size;
 	block_y_num++;//算入边界块
+
+	//循环赋初值队员的块编号
+	for (k = 0;k < 5;k++){
+		p->my_block_pos[k].x = -1;
+		p->my_block_pos[k].y = -1;
+		p->op_block_pos[k].x = -1;
+		p->op_block_pos[k].y = -1;
+	}
 
 	for (i = 0;i < block_x_num;i++){
 		for (j = 0;j < block_y_num;j++){

@@ -192,8 +192,8 @@ typedef struct
 	int block_ball[100][100];//球分区
 	Block block_min;//最小块x值
 	Block block_max;//最大块x值
-	Block my_block_pos[5];//我方队员的块坐标
-	Block op_block_pos[5];//对方队员的块坐标
+	Block my_block_pos[5];//我方队员的块坐标 //-1 = 不在栅格区域内 //值 >= 0 = 存在
+	Block op_block_pos[5];//对方队员的块坐标 //-1 = 不在栅格区域内 //值 >= 0 = 存在
 	Block ball_block_pos;//球的块坐标
 
 	int bgoalball;//球门球
